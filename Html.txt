@@ -1,2 +1,12 @@
 <!DOCTYPE html>
 <html>
+ <head>
+   <script src="leaflet.js"> // Bibliothèque Leaflet : http://leafletjs.com/ </script>
+
+  <title>Pollution_atmosphérique</title>
+  <meta charset="utf-8">
+  
+  <link rel="stylesheet" type="text/css" href="leaflet.css" /> 
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+
+  <style>
