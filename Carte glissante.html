@@ -44,12 +44,15 @@ h1 {
  <body onload="load_data();">
   <h1>Pollution atmosphérique</h1>
   
-  <div id="map" style="width: 700px; height:400px;"></div>
+  <div id="map" style="margin-bottom:1.33em"></div>
+  
+  <p id="description"></p>
 
   <div id="reponse">
      <p></p>
      <img id="courbe">
   </div>	 
+  </script>
   
   <script>
   var map = L.map('map').setView([46.116669, 3.41667], 2);
@@ -62,7 +65,7 @@ function load_data() {
  
   var xhr = new XMLHttpRequest();
 
-  
+  }
   xhr.onload = function() {
 
 
