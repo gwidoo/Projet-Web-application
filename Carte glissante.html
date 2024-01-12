@@ -78,6 +78,8 @@ function load_data() {
        .addEventListener('click',OnMarkerClick)
        .idnum = data[n].nom;
     }
+    xhr.open('GET', '/stations',true);
+    xhr.send();}}
 </script>
 
 
