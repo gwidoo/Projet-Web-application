@@ -55,7 +55,7 @@ h1 {
 <script>
 // Création d'une carte dans la balise div "map",
 // et position de la vue sur un point donné et un niveau de zoom
-var map = L.map('map').setView([47,2.5], 5);
+var map = L.map('map').setView([45.1,5.45], 7);
 
 // Ajout d'une couche de dalles OpenStreetMap
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -119,7 +119,7 @@ function OnMarkerClick (e) {
   var idnum = e.target.idnum
 
   // Envoi de la requête Ajax pour la récupération de la description du lieu de numéro idnum
-  xhr.open('GET','/ponctualite/'+idnum,true);
+  xhr.open('GET','/pollution/'+idnum,true);
   xhr.send();
 }    
 </script>
