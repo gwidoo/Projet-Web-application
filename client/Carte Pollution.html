@@ -112,8 +112,6 @@ function OnMarkerClick (e) {
       image.src = data.img;
       image.alt = data.title;
       legende.innerHTML = data.title;
-      audio.innerHTML ="<audio src='/testaudio/intro.m4a' id='player'></audio>"
-      + "<audio src='/testaudio/" + e.target.idreg + ".m4a' id='ville'></audio>" 
       var player = document.getElementById('player');
       player.play();
       player.addEventListener("ended", playVILLE);
@@ -134,6 +132,6 @@ function playVILLE () {
 
 <form>
  <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-12-06" min="2021-12-06" max="2022-12-06">
+ value="2022-12-06" min="2022-01-01" max="2022-12-06">
  </form>
 
