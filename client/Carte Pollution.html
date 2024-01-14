@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+
+<script src="leaflet.js"> // insertion bibliothèque Leaflet : http://leafletjs.com/ </script>
+
+<h1 align="center"><img src="https://th.bing.com/th/id/R.2e35f96c55f13b5ace7dc310c8268666?rik=%2f1U3EXfH0xy78Q&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fcatalog%2fproduct%2frhone-alpes-flag-4829b.gif&ehk=8vez49aBhi4jxMXw%2bkVcNMMA%2brZJiSKQ4e5Zqxj9DX4%3d&risl=&pid=ImgRaw&r=0" width=40 height=40 > Mesure de la pollution atmosphérique en Auvergne-Rhône-Alpes <img src="https://th.bing.com/th/id/R.2e35f96c55f13b5ace7dc310c8268666?rik=%2f1U3EXfH0xy78Q&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fcatalog%2fproduct%2frhone-alpes-flag-4829b.gif&ehk=8vez49aBhi4jxMXw%2bkVcNMMA%2brZJiSKQ4e5Zqxj9DX4%3d&risl=&pid=ImgRaw&r=0" width=40 height=40 ></h1>
+
+<link rel="stylesheet" type="text/css" href="leaflet.css" /> 
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+
+<meta charset="utf-8">
+
+<style>
+#map { height: 400px; width: 400px; float:left; margin-left:20px; margin-right:20px;}
+</style>
+
+<body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
+  <div id="desc">
+   <h2> Bienvenue sur notre carte glissante ! </h2>
+   <p>
+      Rendez vous sur la carte, et cliquez sur une station de mesure. Vous pourrez visualiser toutes les données relatives à cette station.
+  </div>
+
+
+
+ <label><span>Station :</span><input id="station" name="Station"> 
+ <button id="bouton">Afficher la courbe</button>  </label>
+ <div id="map"></div>  
+
+<div id="reponse">
+  <p align="center"></p>
+  <img width="40%" src="" />
+</div>
+<div id="audio">
+</div>
+<head>
+  <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
+  
+
+  <div class="dropdown">
+    <button class="dropbtn">Informations polluants</button>
+    <div class="dropdown-content">
+      <a href="#">Benzène</a>
+      <a href="#">Monoxyde de carbone</a>
+      <a href="#">Oxydes d'azote</a>
+      <a href="#">Monoxyde d'azote</a>
+      <a href="#">Dioxyde d'azote</a>
+      <a href="#">Dioxyde de soufre</a>
+      <a href="#">Ozone</a>
+      <a href="#">PM10</a>
+      <a href="#">PM2.5</a>
+    </div>
+  </div>
+</head>
+
+
+</body>
+
+<script>
+// Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
+var map = L.map('map').setView([46,4.8], 6.5);
+// Ajout d'une couche de dalles OpenStreetMap
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+     }).addTo(map);
+	 
+function load_data () {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {   // fonction callback
+      // récupération des données renvoyées par le serveur
+	  var data = JSON.parse(this.responseText);
+      // boucle sur les enregistrements renvoyés
+      for ( n = 0; n < data.length; n++ ) {
+        // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
+	    L.marker([data[n].lat,data[n].lon]).addTo(map)
+          .bindPopup(data[n].nom)
+		  .addEventListener('click',OnMarkerClick)
+		  .idreg=data[n].nom;   // propriété personnalisée ajouté au marqueur
+	    }
+    };
+    xhr.open('GET','/stations',true);
+    xhr.send();
+}
+
+function OnMarkerClick (e) {
+    var xhr = new XMLHttpRequest();
+	var image =  document.querySelector('#reponse img'),
+        legende = document.querySelector('#reponse p');
+    date_deb= document.getElementById('date_deb').value,
+		date_fin= document.getElementById('date_fin').value;	
+	xhr.onload = function() {   // fonction callback
+      var data = JSON.parse(this.responseText)
+      image.src = data.img;
+      image.alt = data.title;
+      legende.innerHTML = data.title;
+      audio.innerHTML ="<audio src='/testaudio/intro.m4a' id='player'></audio>"
+      + "<audio src='/testaudio/" + e.target.idreg + ".m4a' id='ville'></audio>" 
+      var player = document.getElementById('player');
+      player.play();
+      player.addEventListener("ended", playVILLE);
+    };
+    xhr.open('GET','/pollution/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+    xhr.send();
+}
+
+function playVILLE () {
+  var player = document.getElementById('ville');
+  player.volume = 1;
+  player.play();
+}
+
+
+
+</script>
+
+<form>
+ <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
+ value="2022-12-06" min="2021-12-06" max="2022-12-06">
+ </form>
+

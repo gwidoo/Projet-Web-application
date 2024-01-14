@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <script src="leaflet.js"> // Bibliothèque Leaflet : http://leafletjs.com/ </script>
 
-  <title>index</title>
-  <meta charset="utf-8">
+
+<script src="leaflet.js"> // Bibliothèque Leaflet : http://leafletjs.com/ </script>
+
+<h1 align="center"><img src="https://th.bing.com/th/id/R.2e35f96c55f13b5ace7dc310c8268666?rik=%2f1U3EXfH0xy78Q&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fcatalog%2fproduct%2frhone-alpes-flag-4829b.gif&ehk=8vez49aBhi4jxMXw%2bkVcNMMA%2brZJiSKQ4e5Zqxj9DX4%3d&risl=&pid=ImgRaw&r=0" width=40 height=40 > Mesure de la pollution atmosphérique en Auvergne-Rhône-Alpes <img src="https://th.bing.com/th/id/R.2e35f96c55f13b5ace7dc310c8268666?rik=%2f1U3EXfH0xy78Q&riu=http%3a%2f%2fnode01.flagstat.net%2fmedia%2fcatalog%2fproduct%2frhone-alpes-flag-4829b.gif&ehk=8vez49aBhi4jxMXw%2bkVcNMMA%2brZJiSKQ4e5Zqxj9DX4%3d&risl=&pid=ImgRaw&r=0" width=40 height=40 ></h1>
+
+
   
-  <link rel="stylesheet" type="text/css" href="leaflet.css" /> 
-  <link rel="stylesheet" type="text/css" href="style.css"/>
+<link rel="stylesheet" type="text/css" href="leaflet.css" /> 
+<link rel="stylesheet" type="text/css" href="style.css"/>
 
+<meta charset="utf-8">
   <style>
 body {
  background-image: linear-gradient(0deg, darkolivegreen, darkslategrey, darkslategrey);
@@ -42,7 +44,8 @@ h1 {
   </style>
  </head>
  <body onload="load_data();">
-  <h1>Pollution atmosphérique</h1>
+  <div id="desc">
+   <h2>Bienvenue sur notre carte glissante !</h2>
   
   <!-- Zone pour l'insertion de la carte OSM via Leaflet -->
   <div id="map" style="margin-bottom:1.33em"></div>  
