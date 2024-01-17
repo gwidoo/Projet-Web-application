@@ -29,7 +29,41 @@
 
 
 </body>
+<head>
+  <style>
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  </style>
+  <div class="dropdown">
+    <button class="dropbtn">Polluants</button>
+    <div class="dropdown-content">
+      <a href="#">Benzène</a>
+      <a href="#">Monoxyde de carbone</a>
+      <a href="#">Oxydes d'azote</a>
+      <a href="#">Monoxyde d'azote</a>
+      <a href="#">Dioxyde d'azote</a>
+      <a href="#">Dioxyde de soufre</a>
+      <a href="#">Ozone</a>
+      <a href="#">PM10</a>
+      <a href="#">PM2.5</a>
+    </div>
+  </div>
+</head>
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
 var map = L.map('map').setView([46,4.8], 6.5);
@@ -61,17 +95,15 @@ function OnMarkerClick (e) {
 	var image =  document.querySelector('#reponse img'),
         legende = document.querySelector('#reponse p');
     date_deb= document.getElementById('date_deb').value,
-		date_fin= document.getElementById('date_fin').value;	
+		date_fin= document.getElementById('date_fin').value;
+    polluant=document.getElementById('polluant').value		
 	xhr.onload = function() {   // fonction callback
       var data = JSON.parse(this.responseText)
       image.src = data.img;
       image.alt = data.title;
       legende.innerHTML = data.title;
-      var player = document.getElementById('player');
-      player.play();
-      player.addEventListener("ended", playVILLE);
-    };
-    xhr.open('GET','/pollution/'+e.target.idreg+e.target.date_deb+e.target.date_fin,true);  // on récupère la courbe par un appel au serveur
+	  
+    xhr.open('GET','/pollution/'+e.target.idreg+e.target.date_deb+e.target.date_fin+e.target.polluant,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
@@ -82,6 +114,6 @@ function OnMarkerClick (e) {
 
 <form>
  <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-12-06" min="2022-01-01" max="2022-12-06">
+ value="2022-12-06" min="2021-12-06" max="2022-12-06">
  </form>
 
