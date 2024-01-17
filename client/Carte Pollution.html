@@ -71,7 +71,7 @@ function OnMarkerClick (e) {
       player.play();
       player.addEventListener("ended", playVILLE);
     };
-    xhr.open('GET','/pollution/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+    xhr.open('GET','/pollution/'+e.target.idreg+e.target.date_deb+e.target.date_fin,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
