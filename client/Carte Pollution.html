@@ -22,13 +22,18 @@
       Rendez vous sur la carte, et cliquez sur une station de mesure. Vous pourrez visualiser toutes les données relatives à cette station.
   </div>
 
+
+
+ <label><span>Station :</span><input id="station" name="Station"> 
+ <button id="bouton">Afficher la courbe</button>  </label>
  <div id="map"></div>  
 
+<div id="reponse">
+  <p align="center"></p>
+  <img width="40%" src="" />
 </div>
-
-
-
-</body>
+<div id="audio">
+</div>
 <head>
   <style>
     .dropdown {
@@ -49,8 +54,10 @@
       display: block;
     }
   </style>
+  
+
   <div class="dropdown">
-    <button class="dropbtn">Polluants</button>
+    <button class="dropbtn">Informations polluants</button>
     <div class="dropdown-content">
       <a href="#">Benzène</a>
       <a href="#">Monoxyde de carbone</a>
@@ -64,6 +71,10 @@
     </div>
   </div>
 </head>
+
+
+</body>
+
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
 var map = L.map('map').setView([46,4.8], 6.5);
@@ -95,15 +106,17 @@ function OnMarkerClick (e) {
 	var image =  document.querySelector('#reponse img'),
         legende = document.querySelector('#reponse p');
     date_deb= document.getElementById('date_deb').value,
-		date_fin= document.getElementById('date_fin').value;
-    polluant=document.getElementById('polluant').value		
+		date_fin= document.getElementById('date_fin').value;	
 	xhr.onload = function() {   // fonction callback
       var data = JSON.parse(this.responseText)
       image.src = data.img;
       image.alt = data.title;
       legende.innerHTML = data.title;
-	  
-    xhr.open('GET','/pollution/'+e.target.idreg+e.target.date_deb+e.target.date_fin+e.target.polluant,true);  // on récupère la courbe par un appel au serveur
+      var player = document.getElementById('player');
+      player.play();
+      player.addEventListener("ended", playVILLE);
+    };
+    xhr.open('GET','/pollution/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
@@ -114,6 +127,6 @@ function OnMarkerClick (e) {
 
 <form>
  <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-12-06" min="2021-12-06" max="2022-12-06">
+ value="2022-12-06" min="2022-01-01" max="2022-12-06">
  </form>
 
