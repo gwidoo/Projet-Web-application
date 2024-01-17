@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 
 
 <script src="leaflet.js"> // insertion bibliothèque Leaflet : http://leafletjs.com/ </script>
@@ -17,11 +17,10 @@
 
 <body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
   <div id="desc">
-   <h2> Bienvenue sur notre carte glissante ! </h2>
+   <h2> Bienvenue sur notre merveilleuse application web ! </h2>
    <p>
-      Rendez vous sur la carte, et cliquez sur une station de mesure. Vous pourrez visualiser toutes les données relatives à cette station.
+      Rendez vous sur la carte, et cliquez sur une station de mesure. Vous pourrez alorsvisualiser toutes les données relatives à cette station ou pas
   </div>
-
 
 
  <label><span>Station :</span><input id="station" name="Station"> 
@@ -97,7 +96,7 @@ function load_data () {
 		  .idreg=data[n].nom;   // propriété personnalisée ajouté au marqueur
 	    }
     };
-    xhr.open('GET','/Stations',true);
+    xhr.open('GET','/stations',true);
     xhr.send();
 }
 
@@ -112,6 +111,8 @@ function OnMarkerClick (e) {
       image.src = data.img;
       image.alt = data.title;
       legende.innerHTML = data.title;
+      audio.innerHTML ="<audio src='/testaudio/intro.m4a' id='player'></audio>"
+      + "<audio src='/testaudio/" + e.target.idreg + ".m4a' id='ville'></audio>" 
       var player = document.getElementById('player');
       player.play();
       player.addEventListener("ended", playVILLE);
@@ -122,11 +123,10 @@ function OnMarkerClick (e) {
 
 
 
-
 </script>
 
 <form>
  <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-12-06" min="2022-01-01" max="2022-12-06">
+ value="2022-12-06" min="2021-12-06" max="2022-12-06">
  </form>
 
