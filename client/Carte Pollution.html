@@ -22,10 +22,6 @@
       Rendez vous sur la carte, et cliquez sur une station de mesure. Vous pourrez visualiser toutes les données relatives à cette station.
   </div>
 
-
-
- <label><span>Station :</span><input id="station" name="Station"> 
- <button id="bouton">Afficher la courbe</button>  </label>
  <div id="map"></div>  
 
 <div id="reponse">
@@ -35,6 +31,17 @@
 <div id="audio">
 </div>
 <head>
+
+Quel(s) polluant(s)?<br>
+<label> Benzène: <input type="checkbox" name="c6h6" value="oui"></label>
+<label>Monoxyde de carbone : <input type="checkbox" name="co" value="oui"></label>
+<label>Oxydes d'azote : <input type="checkbox" name="nox" value="oui"></label>
+<label>Monoxyde d'azote : <input type="checkbox" name="no" value="oui"></label>
+<label>Dioxyde d'azote : <input type="checkbox" name="no2" value="oui"></label>
+<label>Ozone : <input type="checkbox" name="o3" value="oui"></label>
+<label>Dioxyde de souffre : <input type="checkbox" name="so2" value="oui"></label>
+<label>PM10 : <input type="checkbox" name="pm10" value="oui"></label>
+<label>PM2.5 : <input type="checkbox" name="pm25" value="oui"></label>
   <style>
     .dropdown {
       position: relative;
@@ -56,20 +63,6 @@
   </style>
   
 
-  <div class="dropdown">
-    <button class="dropbtn">Informations polluants</button>
-    <div class="dropdown-content">
-      <a href="#">Benzène</a>
-      <a href="#">Monoxyde de carbone</a>
-      <a href="#">Oxydes d'azote</a>
-      <a href="#">Monoxyde d'azote</a>
-      <a href="#">Dioxyde d'azote</a>
-      <a href="#">Dioxyde de soufre</a>
-      <a href="#">Ozone</a>
-      <a href="#">PM10</a>
-      <a href="#">PM2.5</a>
-    </div>
-  </div>
 </head>
 
 
@@ -116,7 +109,15 @@ function OnMarkerClick (e) {
       player.play();
       player.addEventListener("ended", playVILLE);
     };
-    xhr.open('GET','/pollution/'+e.target.idreg+e.target.date_deb+e.target.date_fin,true);  // on récupère la courbe par un appel au serveur
+    xhr.open('GET','/pollution/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+    xhr.send();
+	xhr.open('GET','/pollution/'+e.target.date_deb,true);  // on récupère la courbe par un appel au serveur
+    xhr.send();
+	xhr.open('GET','/pollution/'+e.target.date_fin,true);  // on récupère la courbe par un appel au serveur
+    xhr.send();
+	xhr.open('GET','/pollution/'+e.target.c6h6,true);  // on récupère la courbe par un appel au serveur
+    xhr.send();
+	xhr.open('GET','/pollution/'+e.target.,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
@@ -126,7 +127,7 @@ function OnMarkerClick (e) {
 </script>
 
 <form>
- <label> Début : <input id='date_deb' type="date" name="debut" value="2021-12-05" min="2021-12-05" max="2022-12-05"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-12-06" min="2022-01-01" max="2022-12-06">
+ <label> Début : <input id='date_deb' type="date" name="debut" value="2022-11-27" min="2022-11-27" max="2023-11-27"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
+ value="2022-11-28" min="2022-11-28" max="2023-11-28">
  </form>
 
