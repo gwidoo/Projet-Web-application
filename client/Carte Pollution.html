@@ -27,21 +27,10 @@
 <div id="reponse">
   <p align="center"></p>
   <img width="40%" src="" />
-</div>
-<div id="audio">
-</div>
+
 <head>
 
-Quel(s) polluant(s)?<br>
-<label> Benzène: <input type="checkbox" name="c6h6" value="oui"></label>
-<label>Monoxyde de carbone : <input type="checkbox" name="co" value="oui"></label>
-<label>Oxydes d'azote : <input type="checkbox" name="nox" value="oui"></label>
-<label>Monoxyde d'azote : <input type="checkbox" name="no" value="oui"></label>
-<label>Dioxyde d'azote : <input type="checkbox" name="no2" value="oui"></label>
-<label>Ozone : <input type="checkbox" name="o3" value="oui"></label>
-<label>Dioxyde de souffre : <input type="checkbox" name="so2" value="oui"></label>
-<label>PM10 : <input type="checkbox" name="pm10" value="oui"></label>
-<label>PM2.5 : <input type="checkbox" name="pm25" value="oui"></label>
+
   <style>
     .dropdown {
       position: relative;
@@ -63,9 +52,19 @@ Quel(s) polluant(s)?<br>
   </style>
   
 
+
 </head>
 
-
+Quel(s) polluant(s)?<br>
+<label> Benzène: <input type="checkbox" name="c6h6" value="oui"></label>
+<label>Monoxyde de carbone : <input type="checkbox" name="co" value="oui"></label>
+<label>Oxydes d'azote : <input type="checkbox" name="nox" value="oui"></label>
+<label>Monoxyde d'azote : <input type="checkbox" name="no" value="oui"></label>
+<label>Dioxyde d'azote : <input type="checkbox" name="no2" value="oui"></label>
+<label>Ozone : <input type="checkbox" name="o3" value="oui"></label>
+<label>Dioxyde de souffre : <input type="checkbox" name="so2" value="oui"></label>
+<label>PM10 : <input type="checkbox" name="pm10" value="oui"></label>
+<label>PM2.5 : <input type="checkbox" name="pm25" value="oui"></label>
 </body>
 
 <script>
@@ -117,8 +116,7 @@ function OnMarkerClick (e) {
     xhr.send();
 	xhr.open('GET','/pollution/'+e.target.c6h6,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
-	xhr.open('GET','/pollution/'+e.target.,true);  // on récupère la courbe par un appel au serveur
-    xhr.send();
+
 }
 
 
