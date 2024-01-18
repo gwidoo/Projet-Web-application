@@ -163,8 +163,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             print('Erreur nom')
             self.send_error(404)
             return None
-    deb=datetime(self.path_info[2][:4],self.path_info[2][5:7],self.path_info[2][8:10])
-    fin=datetime(self.path_info[3][:4],self.path_info[3][5:7],self.path_info[3][8:10])
+    deb=datetime(int(self.path_info[2][:4]),int(self.path_info[2][5:7]),int(self.path_info[2][8:10]))
+    fin=datetime(int(self.path_info[3][:4]),int(self.path_info[3][5:7]),int(self.path_info[3][8:10]))
     # # configuration du tracé
     plt.figure(figsize=(18,6))
    # plt.ylim(-5,100)
@@ -182,10 +182,78 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # boucle sur les stations
     for station in (stations) :
         if self.path_info[4]=='oui':
-            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court=C6H6 AND date_debut ORDER BY date_debut",(station[0],))
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='C6H6' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
-            y=
-        
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[0].append(int(a[12]))
+        if self.path_info[5]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='C0' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[1].append(int(a[12]))
+        if self.path_info[6]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='NOX' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[2].append(int(a[12]))
+        if self.path_info[7]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='NO' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[3].append(int(a[12]))                    
+        if self.path_info[8]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='N02' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[4].append(int(a[12]))
+        if self.path_info[9]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='O3' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[5].append(int(a[12]))
+        if self.path_info[10]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='SO2' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[6].append(int(a[12]))
+        if self.path_info[11]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='PM10' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[7].append(int(a[12]))
+        if self.path_info[12]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='PM25' ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            for a in r:
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][7:9]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][7:9]))
+                if date_d>=deb and date_f<=fin and int(a[12])!=0:
+                    y[8].append(int(a[12]))
+                    
         # recupération de la date (1ère colonne) et transformation dans le format de pyplot
         
         # récupération de la pollution (13e colonne)
@@ -205,7 +273,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     plt.title('Pollution atmosphérique en Auvergne-Rhônes-Alpes',fontsize=16)
     plt.ylabel('Pollution atmosphérique (en µg/m³)')
     plt.xlabel('Date')
-    plt.plot(x,y,linewidth=0.2, linestyle='-', color=station[1], label=station[0])
+    plt.plot(x,y,linewidth=0.2,, color=station[1], label=station[0])
     # génération des courbes dans un fichier PNG
     fichier = 'courbes/pollution_'+self.path_info[1] +'.png'
     plt.savefig('client/{}'.format(fichier))
