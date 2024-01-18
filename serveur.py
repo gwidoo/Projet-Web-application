@@ -334,6 +334,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 #
 # Instanciation et lancement du serveur
 #
-httpd = socketserver.TCPServer(("", 8041), RequestHandler)
+httpd = socketserver.TCPServer(("", 8042), RequestHandler)
 httpd.serve_forever()
 
