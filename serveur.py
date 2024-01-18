@@ -9,13 +9,20 @@ import http.server
 import socketserver
 from urllib.parse import urlparse, parse_qs, unquote
 import json
-
+from datetime import datetime , timedelta
 import matplotlib.pyplot as plt
 import datetime as dt
-import matplotlib.dates as pltd
+import matplotlib.dates as mdates
 
 import sqlite3
 
+def generate_date(start_date,end_date):
+    date_list=[]
+    current_date = start_date
+    while current_date <= end_date:
+        date_list.append(current_date)
+        current_date += timedelta(days=1)
+    return date_list
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
   # sous-répertoire racine des documents statiques
@@ -138,93 +145,9 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # si pas de paramètre => liste par défaut
     if len(self.path_info) <= 1 or self.path_info[1] == '' :
         # Definition des régions et des couleurs de tracé
-        stations = [("A7 SUD LYONNAIS","blue"),
-                   ("A7 Salaise Ouest","green"),
-                   ("A7 Valence Est","cyan"),
-                   ("ANNECY Rocade","red"),
-                   ("ANNEMASSE",'orange'),
-                   ("Aiguille du Midi",'olive') ,
-                   ("Albertville","blue"),
-                   ("Aurillac-Lagarde","green"),
-                   ("BOSSONS","cyan"),
-                   ("Beaulieu","red"),
-                   ("Bourg-en-Bresse",'orange'),
-                   ("Bourgoin-Jallieu",'olive') ,
-                   ("CHAMBERY BISSY","blue"),
-                   ("CHAMBERY LE HAUT","green"),
-                   ("CHAMONIX","cyan"),
-                   ("COTIERE AIN","red"),
-                   ("Chamalières Europe",'orange'),
-                   ("Chambéry Trafic",'olive') ,
-                   ("Champ sur Drac","blue"),
-                   ("Drôme Rurale Sud-SND","green"),
-                   ("Edouard Michelin","cyan"),
-                   ("Esplanade Gare","red"),
-                   ("FEYZIN STADE",'orange'),
-                   ("GAILLARD",'olive') ,
-                   ("GERLAND","blue"),
-                   ("Grenoble Boulevards","green"),
-                   ("Grenoble Les Frenes","cyan"),
-                   ("Grenoble PeriurbSud","red"),
-                   ("Gresivaudan Periurb",'orange'),
-                   ("HAUT BEAUJOLAIS",'olive') ,
-                   ("Jardin Lecoq","blue"),
-                   ("LA TALAUDIERE","green"),
-                   ("LOVERCHY","cyan"),
-                   ("LYON Centre","red"),
-                   ("LYON TRAFIC JAURES",'orange'),
-                   ("La Léchère",'olive') ,
-                   ("Le Casset2","blue"),
-                   ("Le Puy-Causans","green"),
-                   ("Leclanche","cyan"),
-                   ("Les Ménuires","red"),
-                   ("Les_Ancizes",'orange'),
-                   ("Lyon - Tunnel Croix-Rousse - Sortie Rhône",'olive') ,
-                   ("Lyon Périphérique","blue"),
-                   ("Maurienne trafic","green"),
-                   ("Montferrand","cyan"),
-                   ("Montluçon","red"),
-                   ("Moulins Centre",'orange'),
-                   ("Métro_SaxeGambetta",'olive') ,
-                   ("NOVEL","blue"),
-                   ("PASSY","green"),
-                   ("PASTEUR","cyan"),
-                   ("Paray le Fresil","red"),
-                   ("Pays du Mezenc",'orange'),
-                   ("Plateau de Bonnevaux","blue"),
-                   ("RIVE DE GIER","green"),
-                   ("ROANNE","cyan"),
-                   ("ROCHES DE CONDRIEU","red"),
-                   ("ROUSSILLON",'orange'),
-                   ("Rageade",'olive') ,
-                   ("Riom Périurbaine","blue"),
-                   ("RocadeSud_Eybens","green"),
-                   ("Romans-sur-Isère","cyan"),
-                   ("Royat Périurbaine","red"),
-                   ("SAINT ETIENNE SUD",'orange'),
-                   ("SAINT EXUPERY",'olive') ,
-                   ("SAINT JEAN","blue"),
-                   ("SAINT-CHAMOND","green"),
-                   ("ST ETIENNE BD URBAIN","cyan"),
-                   ("ST FONS CENTRE","red"),
-                   ("Sablons",'orange'),
-                   ("Saint Bauzile CECA",'olive') ,
-                   ("Sallanches Régie","blue"),
-                   ("Site autoroutier A71","green"),
-                   ("Sommet du Puy de Dom","cyan"),
-                   ("St GermainRhône","red"),
-                   ("St Martin dHeres",'orange'),
-                   ("TERNAY",'olive') ,
-                   ("VAULX EN VELIN","blue"),
-                   ("VENISSIEUX Village","green"),
-                   ("VERNAISON","cyan"),
-                   ("Valence Périurb. Sud","red"),
-                   ("Valence Urb. Centre",'orange'),
-                   ("Vichy",'olive') ,
-                   ("Villefranche Centre","blue"),
-                   ("Voiron Urbain","green")
-                   ]
-        title = 'Pollution atmosphérique (en µg/m³)'
+        print('Erreur')
+        self.send_error(404)
+        return None
     else:
         # On teste que la région demandée existe bien
         c.execute("SELECT DISTINCT label FROM 'stations'")
@@ -240,57 +163,43 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             print('Erreur nom')
             self.send_error(404)
             return None
-    
-    
+    deb=datetime(self.path_info[2][:4],self.path_info[2][5:7],self.path_info[2][8:10])
+    fin=datetime(self.path_info[3][:4],self.path_info[3][5:7],self.path_info[3][8:10])
     # # configuration du tracé
     plt.figure(figsize=(18,6))
    # plt.ylim(-5,100)
     plt.grid(which='major', color='#888888', linestyle='-')
     plt.grid(which='minor',axis='x', color='#888888', linestyle=':')
     
-    ax = plt.subplot(111)
-    loc_major = pltd.YearLocator()
-    loc_minor = pltd.MonthLocator()
-    ax.xaxis.set_major_locator(loc_major)
-    ax.xaxis.set_minor_locator(loc_minor)
-    format_major = pltd.DateFormatter('%B %Y')
-    ax.xaxis.set_major_formatter(format_major)
-    ax.xaxis.set_tick_params(labelsize=10)
-    #fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
     
-        # Configuration du tracé
-   # fig, ax = plt.subplots(figsize=(15, 5))
-   # ax.grid(which='major', color='#888888', linestyle='-')
-   # ax.grid(which='minor', axis='x', color='#888888', linestyle=':')
-   # loc_major = pltd.YearLocator()
-   # loc_minor = pltd.MonthLocator()
-    #ax.xaxis.set_major_locator(loc_major)
-   # ax.xaxis.set_minor_locator(loc_minor)
-   # format_major = pltd.DateFormatter('%B %Y')
-   # ax.xaxis.set_major_formatter(format_major)
-    #ax.xaxis.set_tick_params(labelsize=10)
-    
-    # Suppression des bandes blanches
-   # fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    #fig.tight_layout()  # Ajustement automatique des marges
+
+
 
     # Affichage de la figure
     plt.show()
-        
+    x=generate_date(deb,fin)   
+    y=[[]*9]
     # boucle sur les stations
     for station in (stations) :
-        c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? ORDER BY date_debut",(station[0],))
-        r = c.fetchall()
+        if self.path_info[4]=='oui':
+            c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court=C6H6 AND date_debut ORDER BY date_debut",(station[0],))
+            r = c.fetchall()
+            y=
         
         # recupération de la date (1ère colonne) et transformation dans le format de pyplot
-        x = [pltd.date2num(dt.date(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))) for a in r if not (a[15] == ('',) or  a[15]==(None,))]
         
         # récupération de la pollution (13e colonne)
-        y = [float(a[12]) for a in r if not (a[12] == ('',) or  a[12]==(None,))]
+                
+        #y = [float(a[12]) for a in r if not (a[12] == ('',) or  a[12]==(None,))]
         
         # tracé de la courbe
         plt.plot_date(x,y,linewidth=0.05, linestyle=':', color=station[1], label=station[0], marker='.', markersize='1.5')
-        
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+
+        # Rotation des étiquettes de date pour une meilleure lisibilité
+        plt.gcf().autofmt_xdate()
+
     # légendes
     plt.legend(loc='lower left')
     plt.title('Pollution atmosphérique en Auvergne-Rhônes-Alpes',fontsize=16)
@@ -335,6 +244,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 #
 # Instanciation et lancement du serveur
 #
-httpd = socketserver.TCPServer(("", 8014), RequestHandler)
+httpd = socketserver.TCPServer(("", 8022), RequestHandler)
 httpd.serve_forever()
 

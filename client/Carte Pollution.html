@@ -13,6 +13,16 @@
 
 <style>
 #map { height: 400px; width: 400px; float:left; margin-left:20px; margin-right:20px;}
+
+.pollutant {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.pollutant span, .pollutant label {
+    margin-right: 10px;
+}
 </style>
 
 <body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
@@ -55,16 +65,6 @@
 
 </head>
 
-Quel(s) polluant(s)?<br>
-<label> Benzène: <input type="checkbox" name="c6h6" value="oui"></label>
-<label>Monoxyde de carbone : <input type="checkbox" name="co" value="oui"></label>
-<label>Oxydes d'azote : <input type="checkbox" name="nox" value="oui"></label>
-<label>Monoxyde d'azote : <input type="checkbox" name="no" value="oui"></label>
-<label>Dioxyde d'azote : <input type="checkbox" name="no2" value="oui"></label>
-<label>Ozone : <input type="checkbox" name="o3" value="oui"></label>
-<label>Dioxyde de souffre : <input type="checkbox" name="so2" value="oui"></label>
-<label>PM10 : <input type="checkbox" name="pm10" value="oui"></label>
-<label>PM2.5 : <input type="checkbox" name="pm25" value="oui"></label>
 </body>
 
 <script>
@@ -92,6 +92,15 @@ function load_data () {
     xhr.open('GET','/Stations',true);
     xhr.send();
 }
+function getRadioValue(name) {
+    var radios = document.getElementsByName(name);
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            return radios[i].value;
+        }
+    }
+    return 'non'; // Retournez 'non' par défaut si aucun bouton n'est sélectionné
+}
 
 function OnMarkerClick (e) {
     var xhr = new XMLHttpRequest();
@@ -108,13 +117,17 @@ function OnMarkerClick (e) {
       player.play();
       player.addEventListener("ended", playVILLE);
     };
-    xhr.open('GET','/pollution/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
-    xhr.send();
-	xhr.open('GET','/pollution/'+e.target.date_deb,true);  // on récupère la courbe par un appel au serveur
-    xhr.send();
-	xhr.open('GET','/pollution/'+e.target.date_fin,true);  // on récupère la courbe par un appel au serveur
-    xhr.send();
-	xhr.open('GET','/pollution/'+e.target.c6h6,true);  // on récupère la courbe par un appel au serveur
+	var c6h6 = getRadioValue('c6h6');
+    var co = getRadioValue('co');
+	var nox = getRadioValue('nox');
+	var no = getRadioValue('no');
+	var no2 = getRadioValue('no2');
+	var so2 = getRadioValue('so2');
+	var o3 = getRadioValue('o3');
+	var pm10 = getRadioValue('pm10');
+	var pm25 = getRadioValue('pm25');
+
+    xhr.open('GET','/pollution/'+e.target.idreg+'/'+date_deb+'/'+date_fin+'/'+c6h6+'/'+co+'/'+nox+'/'+no+'/'+no2+'/'+o3+'/'+so2+'/'+pm10+'/'+pm25,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 
 }
@@ -124,8 +137,38 @@ function OnMarkerClick (e) {
 
 </script>
 
+<fieldset>
+<style>
+fieldset {
+position : fixed
+bottom=0
+}
+</style>
+Quel(s) polluant(s)?<br>
+<div class="pollutant"><span>Benzène:</span><label> Oui: <input id='c6h6'type="radio" name="c6h6" value="oui"></label><label> Non: <input id='c6h6'type="radio" name="c6h6" value="non"></label>
+</div>
+<div class="pollutant"><span>Monoxyde de carbone :</span><label> Oui: <input id='co' type="radio" name="co" value="oui"></label><label> Non: <input id='co' type="radio" name="co" value="non"></label>
+</div>
+<div class="pollutant"><span>Oxydes d'azote :</span><label> Oui: <input id='nox' type="radio" name="nox" value="oui"></label><label> Non: <input id='nox' type="radio" name="nox" value="non"></label>
+</div>
+<div class="pollutant"><span>Monoxyde d'azote :</span> <label> Oui: <input id='no' type="radio" name="no" value="oui"></label> <label> Non: <input id='no' type="radio" name="no" value="non"></label>
+</div>
+<div class="pollutant"><span>Dioxyde d'azote :</span><label> Oui: <input id='no2' type="radio" name="no2" value="oui"></label><label> Non: <input id='no2' type="radio" name="no2" value="non"></label>
+</div>
+<div class="pollutant"><span>Ozone :</span><label> Oui: <input id='o3' type="radio" name="o3" value="oui"></label><label> Non: <input id='o3' type="radio" name="o3" value="non"></label>
+</div>
+<div class="pollutant"><span>Dioxyde de souffre :</span><label> Oui: <input id='so2' type="radio" name="so2" value="oui"></label><label> Non: <input id='so2' type="radio" name="so2" value="non"></label>
+</div>
+<div class="pollutant"><span>PM10 :</span><label> Oui: <input id='pm10' type="radio" name="pm10" value="oui"></label><label> Non: <input id='pm10' type="radio" name="pm10" value="non"></label>
+</div>
+<div class="pollutant"><span>PM2.5 :</span><label> Oui: <input id='pm25' type="radio" name="pm25" value="oui"></label><label> Non: <input id='pm25' type="radio" name="pm25" value="non"></label>
+</div>
+</fieldset>
+
 <form>
- <label> Début : <input id='date_deb' type="date" name="debut" value="2022-11-27" min="2022-11-27" max="2023-11-27"> &emsp; Fin : <input id="date_fin" type="date" name="fin" 
- value="2022-11-28" min="2022-11-28" max="2023-11-28">
+<div class="pollutant"><span> <label> Début :</span> <input id='date_deb' type="date" name="debut" value="2022-11-27" min="2022-11-27" max="2023-11-27"> &emsp; Fin : <input id="date_fin" type="date" name="fin"  value="2022-11-28" min="2022-11-28" max="2023-11-28">
+</div>
+
  </form>
+
 
