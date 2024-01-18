@@ -297,7 +297,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     
     
     # génération des courbes dans un fichier PNG
-    fichier = 'courbes/pollution_'+self.path_info[1:] +'.png'
+    fichier = 'courbes/pollution_'+self.path_info[1] +'.png'
     plt.savefig('client/{}'.format(fichier))
 
     #html = '<img src="/{}?{}" alt="pollution {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
@@ -334,6 +334,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 #
 # Instanciation et lancement du serveur
 #
-httpd = socketserver.TCPServer(("", 8039), RequestHandler)
+httpd = socketserver.TCPServer(("", 8041), RequestHandler)
 httpd.serve_forever()
 
