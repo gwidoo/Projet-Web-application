@@ -175,101 +175,74 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='C6H6' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[0].append(float(b))
+                    y[0].append(float(a[12]))
         if self.path_info[5]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='C0' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[1].append(float(b))
+                    y[1].append(float(a[12]))
         if self.path_info[6]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='NOX' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[2].append(float(b))
+                    y[2].append(float(a[12]))
         if self.path_info[7]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='NO' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[3].append(float(b))           
+                    y[3].append(float(a[12]))           
         if self.path_info[8]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='N02' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[4].append(float(b))
+                    y[4].append(float(a[12]))
         if self.path_info[9]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='O3' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[5].append(float(b))
+                    y[5].append(float(a[12]))
         if self.path_info[10]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='SO2' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[6].append(float(b))
+                    y[6].append(float(a[12]))
         if self.path_info[11]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='PM10' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[7].append(float(b))
+                    y[7].append(float(a[12]))
         if self.path_info[12]=='oui':
             c.execute("SELECT * FROM 'moyennes_journalieres' WHERE nom_station=? AND polluant_court='PM25' ORDER BY date_debut",(station[0],))
             r = c.fetchall()
             for a in r:
-                (b,)=a[12]
-                (c,)=a[15]
-                (d,)=a[16]
-                date_d=datetime(int(c[:4]),int(c[5:7]),int(c[8:10]))
-                date_f=datetime(int(d[:4]),int(d[5:7]),int(d[8:10]))
+                date_d=datetime(int(a[15][:4]),int(a[15][5:7]),int(a[15][8:10]))
+                date_f=datetime(int(a[16][:4]),int(a[16][5:7]),int(a[16][8:10]))
                 if date_d>=deb and date_f<=fin and a[12] != ('',) and  a[12]!=(None,):
-                    y[8].append(float(b))
+                    y[8].append(float(a[12]))
         # recupération de la date (1ère colonne) et transformation dans le format de pyplot
         
         # récupération de la pollution (13e colonne)
@@ -285,8 +258,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     plt.title('Pollution atmosphérique à {}'.format(station[0]),fontsize=16)
     plt.ylabel('Pollution atmosphérique (en µg/m³)')
     plt.xlabel('Date')
+    x.pop()
     for i in range(4,13):
-        if self.path_info[i]=='oui':
+        if self.path_info[i]=='oui' and len(y[i-4])>0:
+            print(i,len(y[i-4]))
             plt.plot(x,y[i-4],color=couleur[i-4], label=poll[i-4])
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
     plt.gca().xaxis.set_major_locator(mdates.DayLocator())
@@ -302,7 +277,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     #html = '<img src="/{}?{}" alt="pollution {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
     body = json.dumps({
-            'title': 'Pollution atmosphérique '+self.path_info[1:], \
+            'title': 'Pollution atmosphérique '+self.path_info[1], \
             'img': '/'+fichier \
              });
     # on envoie
@@ -315,7 +290,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
   # On envoie les entêtes et le corps fourni
   #
   def send(self,body,headers=[]):
-
     # on encode la chaine de caractères à envoyer
     encoded = bytes(body, 'UTF-8')
 
