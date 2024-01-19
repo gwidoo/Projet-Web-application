@@ -167,8 +167,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     x=generate_date(deb,fin)   
     y=[[],[],[],[],[],[],[],[],[]]
-    poll=['Benzène','Monoxyde de Carbone','Oxydes d Azote','Monoxyde d Azote','Dioxyde d Azote','Ozone','Dioxyde de Souffre','PM10','PM2.5']
-    couleur=['blue','green','red','cyan','magenta','yellow','black','white','purple']
+    poll=['Benzène','Monoxyde de Carbone','Oxydes dAzote','Monoxyde dAzote','Dioxyde dAzote','Ozone','Dioxyde de Souffre','PM10','PM2.5']
+    couleur=['blue','green','red','cyan','magenta','yellow','black','orange','purple']
     # boucle sur les stations
     for station in stations :
         if self.path_info[4]=='oui':
@@ -255,6 +255,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
 
     # légendes
+    plt.figure()
     plt.title('Pollution atmosphérique à {}'.format(station[0]),fontsize=16)
     plt.ylabel('Pollution atmosphérique (en µg/m³)')
     plt.xlabel('Date')
@@ -264,10 +265,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             print(i,len(y[i-4]))
             plt.plot(x,y[i-4],color=couleur[i-4], label=poll[i-4])
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator())
+    plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator())
     plt.gcf().autofmt_xdate()
     plt.legend(loc='lower left')
-    plt.show()
+
     
     
     
